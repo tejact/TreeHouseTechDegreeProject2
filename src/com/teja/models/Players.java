@@ -63,6 +63,8 @@ public class Players {
         availablePlayers.remove(playerName);
     }
 
+    public void addPlayerToAvailablePlayers(String playerName,Player player) {availablePlayers.put(playerName,player);};
+
     public Player getPlayer(String playerName) {
         return availablePlayers.get(playerName);
     }

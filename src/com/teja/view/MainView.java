@@ -40,7 +40,16 @@ public class MainView {
             String selectedPlayer = selectPlayerInAvailablePlayers();
             controller.addPlayer(teamName,selectedPlayer);
             action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
-        }} while(action != 99);
+        }
+        else if (action == 3) {
+            //remove player form the team
+            String teamName = getTeamFromAllTeams();
+            String selectedPlayerToRemove = selectPLayerFromExistingPlayer(teamName);
+            controller.removePlayer(teamName,selectedPlayerToRemove);
+            action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
+        }
+
+        } while(action != 99);
     }
 
 
@@ -53,6 +62,10 @@ public class MainView {
     private String selectPlayerInAvailablePlayers() {
         String selectedPlayer =  prompter.selectOneFromList(controller.getAvailablePlayers().keySet());
         return selectedPlayer;
+    }
+
+    private String selectPLayerFromExistingPlayer(String teamName) {
+        return  prompter.selectOneFromList(controller.getTeams().get(teamName).getTeamPlayers().keySet());
     }
 
     private void statusView(boolean status) {

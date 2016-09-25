@@ -1,7 +1,7 @@
 package com.teja.models;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Teja on 9/18/2016.
@@ -9,20 +9,26 @@ import java.util.TreeSet;
 public class Team {
     private String teamName;
     private String coachName;
-    Set<Player> teamPlayers;
-
-
-
-
+    private TreeMap<String,Player> teamPlayers;
     public Team(String teamName, String coachName) {
-        teamPlayers = new TreeSet<Player>();
+        teamPlayers = new TreeMap<String,Player>();
         this.teamName = teamName;
         this.coachName = coachName;
     }
 
-    public void addPlayerToTeam(Player player) {
-        teamPlayers.add(player);
+    public void addPlayerToTeam(String playerName, Player player) {
+        teamPlayers.put(playerName,player);
     }
+
+    public void removePlayer(String playerName) {
+        teamPlayers.remove(playerName);
+    }
+
+    public Map<String,Player> getTeamPlayers() {
+        return teamPlayers;
+    }
+
+
 
     public String getTeamName() {
         return teamName;

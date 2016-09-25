@@ -37,7 +37,7 @@ public class MainController {
     public void addPlayer(String teamName , String playerName) {
         Team team = teams.getTeam(teamName);
         Player player = players.getPlayer(playerName);
-        team.addPlayerToTeam(player);
+        team.addPlayerToTeam(playerName,player);
         players.removePlayerFromAvailablePlayers(playerName);
     }
 
@@ -50,4 +50,13 @@ public class MainController {
         return players.getAvailablePlayers();
     }
 
+    public void removePlayer(String teamName, String playerName) {
+        Team team = teams.getTeam(teamName);
+        Player player = players.getPlayer(playerName);
+        team.removePlayer(playerName);
+        players.addPlayerToAvailablePlayers(playerName,player);
+
+
+
+    }
 }

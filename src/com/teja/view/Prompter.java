@@ -3,9 +3,7 @@ package com.teja.view;
 import java.util.Collection;
 import java.util.Scanner;
 
-/**
- * Created by Teja on 9/18/2016.
- */
+
 
 
 public class  Prompter {

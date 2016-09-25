@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by Teja on 9/18/2016.
- */
+
 public class MainController {
 
     Teams teams;
@@ -55,8 +53,14 @@ public class MainController {
         Player player = players.getPlayer(playerName);
         team.removePlayer(playerName);
         players.addPlayerToAvailablePlayers(playerName,player);
-
-
-
     }
+
+    public void viewReportByHeight(String teamName) {
+        Team team = teams.getTeam(teamName);
+        Map<String,Player> teamPlayers = team.getTeamPlayers();
+        for(Player player : teamPlayers.values()){
+            System.out.println(player.getFirstName()+" "+player.getLastName()+" "+player.getHeightInInches()+" Inches");
+        }
+    }
+
 }

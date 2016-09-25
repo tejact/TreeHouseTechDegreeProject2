@@ -4,9 +4,6 @@ import com.teja.controller.MainController;
 
 import java.util.Scanner;
 
-/**
- * Created by Teja on 9/18/2016.
- */
 public class MainView {
 
     MainController controller = new MainController();
@@ -23,33 +20,34 @@ public class MainView {
     }
 
     private void organiserView() {
-        int action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
+        final String organiserWelcomePrompt = "Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team 4.View Report by height 5.Exit";
+        int action = Integer.parseInt(prompter.getDataFromUser(organiserWelcomePrompt));
 
         do{
-        if(action == 1) {
-            String teamName =prompter.getDataFromUser("Enter the name for new team");
-            String coachName =prompter.getDataFromUser("Enter the coach for new team");
-            boolean status = controller.createTeam(teamName,coachName);
-            statusView(status);
-            action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
-
-        }
-        else if (action == 2) {
-            //Add Player to Team
-            String teamName = getTeamFromAllTeams();
-            String selectedPlayer = selectPlayerInAvailablePlayers();
-            controller.addPlayer(teamName,selectedPlayer);
-            action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
-        }
-        else if (action == 3) {
-            //remove player form the team
-            String teamName = getTeamFromAllTeams();
-            String selectedPlayerToRemove = selectPLayerFromExistingPlayer(teamName);
-            controller.removePlayer(teamName,selectedPlayerToRemove);
-            action = Integer.parseInt(prompter.getDataFromUser("Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team"));
-        }
-
-        } while(action != 99);
+            if(action == 1) {
+                String teamName =prompter.getDataFromUser("Enter the name for new team");
+                String coachName =prompter.getDataFromUser("Enter the coach for new team");
+                boolean status = controller.createTeam(teamName,coachName);
+                statusView(status);
+            }
+            else if (action == 2) {
+                //Add Player to Team
+                String teamName = getTeamFromAllTeams();
+                String selectedPlayer = selectPlayerInAvailablePlayers();
+                controller.addPlayer(teamName,selectedPlayer);
+            }
+            else if (action == 3) {
+                //remove player form the team
+                String teamName = getTeamFromAllTeams();
+                String selectedPlayerToRemove = selectPLayerFromExistingPlayer(teamName);
+                controller.removePlayer(teamName,selectedPlayerToRemove);
+            }
+            else if(action == 4){
+                String teamName = getTeamFromAllTeams();
+                controller.viewReportByHeight(teamName);
+            }
+            action = Integer.parseInt(prompter.getDataFromUser(organiserWelcomePrompt));
+        } while(action > 0 && action < 5);
     }
 
 
@@ -70,7 +68,6 @@ public class MainView {
 
     private void statusView(boolean status) {
         String message = "";
-
         if(status) {
            message =  "Operation Success";
         }

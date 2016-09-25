@@ -1,7 +1,10 @@
 package com.teja.view;
 
 import com.teja.controller.MainController;
+import com.teja.models.Player;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MainView {
@@ -17,10 +20,23 @@ public class MainView {
         if(role == 1) {
             organiserView();
         }
+        else if(role == 2){
+            coachView();
+        }
+    }
+
+    private void coachView() {
+        String teamName =prompter.getDataFromUser("Enter the name of your team: ");
+        Map<String,Player> playersInTeam = controller.getPlayersInTeam(teamName);
+        for(String playerName : playersInTeam.keySet()) {
+            System.out.println(playerName);
+        }
+
     }
 
     private void organiserView() {
-        final String organiserWelcomePrompt = "Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team 4.View Report by height 5.Exit";
+        final String organiserWelcomePrompt = "Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team 4.View Report by height " +
+                "5.View League Balance Report   6.Exit ";
         int action = Integer.parseInt(prompter.getDataFromUser(organiserWelcomePrompt));
 
         do{
@@ -43,11 +59,34 @@ public class MainView {
                 controller.removePlayer(teamName,selectedPlayerToRemove);
             }
             else if(action == 4){
+                //Get teamName for the height report
                 String teamName = getTeamFromAllTeams();
-                controller.viewReportByHeight(teamName);
+                //Key stores the range like
+                Map<String,ArrayList<String>> rangeMap  = controller.viewReportByHeight(teamName);
+
+                for(Map.Entry<String,ArrayList<String>> entry : rangeMap.entrySet()) {
+                    String range = entry.getKey();
+                    ArrayList<String> list = (ArrayList)entry.getValue();
+                    System.out.println();
+                    System.out.println(range);
+                    for(String playerName : list) {
+                        System.out.println(playerName);
+                    }
+                }
+            }
+            else if(action == 5) {
+                Map<String,ArrayList<Integer>> leagueBalance = controller.viewLeagueBalanceReport();
+                for (Map.Entry<String,ArrayList<Integer>> entry : leagueBalance.entrySet()) {
+                    String teamName = entry.getKey();
+                    ArrayList list = entry.getValue();
+                    System.out.println(teamName+" "+list.get(0)+" "+list.get(1));
+                }
+            }
+            else if(action == 6) {
+                rolesView();
             }
             action = Integer.parseInt(prompter.getDataFromUser(organiserWelcomePrompt));
-        } while(action > 0 && action < 5);
+        } while(action > 0 && action < 7);
     }
 
 
@@ -65,6 +104,7 @@ public class MainView {
     private String selectPLayerFromExistingPlayer(String teamName) {
         return  prompter.selectOneFromList(controller.getTeams().get(teamName).getTeamPlayers().keySet());
     }
+
 
     private void statusView(boolean status) {
         String message = "";

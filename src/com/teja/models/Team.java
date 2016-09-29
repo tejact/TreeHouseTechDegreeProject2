@@ -7,6 +7,9 @@ import java.util.TreeMap;
 public class Team {
     private String teamName;
     private String coachName;
+    //all players in a team are represented with a map
+    //Key is player firstName + player lastName
+    //Value is Player object
     private TreeMap<String,Player> teamPlayers;
     public Team(String teamName, String coachName) {
         teamPlayers = new TreeMap<String,Player>();
@@ -40,15 +43,13 @@ public class Team {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Team)) return false;
-
         Team team = (Team) o;
-
         return teamName.equals(team.teamName);
-
     }
 
     @Override
     public int hashCode() {
         return teamName.hashCode();
     }
+
 }

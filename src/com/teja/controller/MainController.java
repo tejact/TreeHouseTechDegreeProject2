@@ -1,9 +1,7 @@
 package com.teja.controller;
 
-import com.teja.models.Player;
-import com.teja.models.Players;
-import com.teja.models.Team;
-import com.teja.models.Teams;
+import com.teja.exceptions.*;
+import com.teja.models.*;
 
 import java.util.*;
 
@@ -31,15 +29,28 @@ public class MainController {
     }
 
     public void addPlayer(String teamName , String playerName) {
-        Team team = teams.getTeam(teamName);
+
+
+        try {
+            Team team = teams.getTeam(teamName);
         Player player = players.getPlayer(playerName);
         team.addPlayerToTeam(playerName,player);
         players.removePlayerFromAvailablePlayers(playerName);
+        } catch (PlayerNotFoundException e) {
+            e.printStackTrace();
+        } catch (TeamNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public Map<String,Player> getPlayersInTeam(String teamName) {
-        Team team = teams.getTeam(teamName);
+        Team team = null;
+        try {
+            team = teams.getTeam(teamName);
+        } catch (TeamNotFoundException e) {
+            e.printStackTrace();
+        }
         return team.getTeamPlayers();
     }
 
@@ -53,17 +64,27 @@ public class MainController {
     }
 
     public void removePlayer(String teamName, String playerName) {
-        Team team = teams.getTeam(teamName);
-        Player player = players.getPlayer(playerName);
-        team.removePlayer(playerName);
-        players.addPlayerToAvailablePlayers(playerName,player);
+
+        try {
+            Team team = teams.getTeam(teamName);
+            Player player = null;
+            player = players.getPlayer(playerName);
+            team.removePlayer(playerName);
+            players.addPlayerToAvailablePlayers(playerName,player);
+        } catch (PlayerNotFoundException e) {
+            e.printStackTrace();
+        } catch (TeamNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public Map<String, ArrayList<String>> viewReportByHeight(String teamName) {
+    public Map<String, ArrayList<String>> viewReportByHeight(String teamName) throws TeamNotFoundException {
 
         //Get teamName for the height report
-        Team team = teams.getTeam(teamName);
+        Team team = null;
 
+        team = teams.getTeam(teamName);
         //Get all the players of the above provided team.
         Map<String,Player> teamPlayers = team.getTeamPlayers();
 
@@ -97,6 +118,8 @@ public class MainController {
         return rangeMap;
     }
 
+    //Map<String, ArrayList<Integer>>
+    // Key is the team name and Value is the List containing experienced and inexperienced players
     public Map<String, ArrayList<Integer>> viewLeagueBalanceReport() {
         Map<String,Team> allTeams = teams.getAllTeams();
         Map<String,ArrayList<Integer>>  leagueBalance =

@@ -1,5 +1,7 @@
 package com.teja.models;
 
+import com.teja.exceptions.PlayerNotFoundException;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -7,6 +9,8 @@ public class Players {
 
     Map<String,Player> availablePlayers;
 
+    //While initializing , availablePlayers map is created
+    //Key is Player firstname + Player lastName , value is the player object
     public Players() {
         availablePlayers = new TreeMap<String,Player>();
         Player[] allPlayers = load();
@@ -59,13 +63,23 @@ public class Players {
         return availablePlayers;
     }
 
-    public void removePlayerFromAvailablePlayers(String playerName) {
+    //Player is removed from availablePlayers map
+    public void removePlayerFromAvailablePlayers(String playerName) throws PlayerNotFoundException  {
+        if(!availablePlayers.containsKey(playerName)) {
+            throw new PlayerNotFoundException("Player not found");
+        }
         availablePlayers.remove(playerName);
     }
 
-    public void addPlayerToAvailablePlayers(String playerName,Player player) {availablePlayers.put(playerName,player);};
+    public void addPlayerToAvailablePlayers(String playerName,Player player) {
+        availablePlayers.put(playerName,player);
+    }
 
-    public Player getPlayer(String playerName) {
+    //Get player used availablePlayers set.
+    public Player getPlayer(String playerName) throws PlayerNotFoundException {
+        if(!availablePlayers.containsKey(playerName)) {
+            throw new PlayerNotFoundException("Player not found");
+        }
         return availablePlayers.get(playerName);
     }
 

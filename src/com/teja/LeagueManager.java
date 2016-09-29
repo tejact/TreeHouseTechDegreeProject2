@@ -11,7 +11,9 @@ public class LeagueManager {
         Player[] players = Players.load();
         System.out.println(players.length);
 
+        //Initialize View
         MainView view = new MainView();
+        //Call Main view
         view.rolesView();
     }
 

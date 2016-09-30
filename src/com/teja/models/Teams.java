@@ -18,8 +18,12 @@ public class Teams {
         allTeams = new TreeMap<String,Team> ();
     }
 
-    public void addTeam(Team team) {
-        allTeams.put(team.getTeamName(),team);
+    public void addTeam(Team team) throws TeamAlreadyExistsException {
+        String teamName = team.getTeamName();
+        if(allTeams.containsKey(teamName)) {
+            throw new TeamAlreadyExistsException("Team already exists");
+        }
+        allTeams.put(teamName,team);
     }
 
     public Map<String,Team> getAllTeams() {

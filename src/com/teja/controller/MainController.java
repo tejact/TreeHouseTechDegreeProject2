@@ -24,7 +24,12 @@ public class MainController {
 
     public boolean createTeam(String teamName, String coachName) {
         Team team = new Team(teamName,coachName);
-        teams.addTeam(team);
+        try {
+            teams.addTeam(team);
+
+        } catch (TeamAlreadyExistsException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

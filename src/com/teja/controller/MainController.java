@@ -64,11 +64,10 @@ public class MainController {
     }
 
     public void removePlayer(String teamName, String playerName) {
-
         try {
             Team team = teams.getTeam(teamName);
             Player player = null;
-            player = players.getPlayer(playerName);
+            player = team.getPlayerFromTeam(playerName);
             team.removePlayer(playerName);
             players.addPlayerToAvailablePlayers(playerName,player);
         } catch (PlayerNotFoundException e) {
@@ -125,7 +124,7 @@ public class MainController {
         Map<String,ArrayList<Integer>>  leagueBalance =
                 new TreeMap<String,ArrayList<Integer>>();
         for(Team team : allTeams.values()) {
-            ArrayList<Integer> list = new ArrayList<Integer>();
+            ArrayList<Integer> expVsInexpCount = new ArrayList<Integer>();
             int experienced = 0;
             int inExperienced = 0;
             Map<String,Player> teamPlayers = team.getTeamPlayers();
@@ -136,9 +135,9 @@ public class MainController {
                    inExperienced++;
                }
             }
-            list.add(experienced);
-            list.add(inExperienced);
-            leagueBalance.put(team.getTeamName(),list);
+            expVsInexpCount.add(experienced);
+            expVsInexpCount.add(inExperienced);
+            leagueBalance.put(team.getTeamName(),expVsInexpCount);
         }
         return leagueBalance;
     }

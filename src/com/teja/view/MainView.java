@@ -25,13 +25,14 @@ public class MainView {
         else if(role == 2){
             coachView();
         } else {
-            return;
+            System.out.println("Thank you!!!!");
+            System.exit(0);
         }
     }
 
     private void organiserView()  {
-        final String organiserWelcomePrompt = "Please enter you action : 1.Ceate Team 2.Add Player to Team 3.Remove Player form Team 4.View Report by height " +
-                "5.View League Balance Report   6.Exit ";
+        final String organiserWelcomePrompt = "Please enter you action : 1.Create Team 2.Add Player to Team 3.Remove Player form Team 4.View Report by height " +
+                "5.View League Balance Report(Experience Report)   6.Exit ";
         //Prompt the provided string and get input form user
         int action = Integer.parseInt(prompter.getDataFromUser(organiserWelcomePrompt));
 
@@ -55,7 +56,7 @@ public class MainView {
             //remove player form the team
             else if (action == 3) {
                 String teamName = getTeamFromAllTeams();
-                String selectedPlayerToRemove = selectPLayerFromExistingPlayer(teamName);
+                String selectedPlayerToRemove = selectPlayerFromExistingPlayersInTeam(teamName);
                 //Using controller to remove players
                 controller.removePlayer(teamName,selectedPlayerToRemove);
             }
@@ -83,16 +84,18 @@ public class MainView {
                     e.printStackTrace();
                 }
             }
-            //View League balance report.
+            //View League balance report(Experience Report).
             else if(action == 5) {
                 //Map<String, ArrayList<Integer>>
                 // Key is the team name and Value is the List containing experienced and inexperienced players
                 Map<String,ArrayList<Integer>> leagueBalance = controller.viewLeagueBalanceReport();
+                System.out.println("*****League Balanced Report******");
+                System.out.println("TeamName::::::Experienced Playes ::::: Inexperienced Players");
                 //Iterate and print
                 for (Map.Entry<String,ArrayList<Integer>> entry : leagueBalance.entrySet()) {
                     String teamName = entry.getKey();
                     ArrayList list = entry.getValue();
-                    System.out.println(teamName+" "+list.get(0)+" "+list.get(1));
+                    System.out.println(teamName+"::::::"+list.get(0)+"::::::"+list.get(1));
                 }
             }
             else if(action == 6) {
@@ -128,7 +131,11 @@ public class MainView {
     }
 
     //helper method for organiserView()
-    private String selectPLayerFromExistingPlayer(String teamName) {
+    private String selectPlayerFromExistingPlayersInTeam(String teamName) {
+        //getTeams() => All Teams
+        //get(Team Name) => Corresponding Team object
+        //getTeamPlayers() => Map of players name and Player object
+        //keySet() => Set of all player names
         return  prompter.selectOneFromList(controller.getTeams().get(teamName).getTeamPlayers().keySet());
     }
 

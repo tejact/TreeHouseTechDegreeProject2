@@ -1,5 +1,7 @@
 package com.teja.models;
 
+import com.teja.exceptions.PlayerNotFoundException;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,6 +21,13 @@ public class Team {
 
     public void addPlayerToTeam(String playerName, Player player) {
         teamPlayers.put(playerName,player);
+    }
+
+    public Player getPlayerFromTeam(String playerName) throws PlayerNotFoundException {
+        if(!teamPlayers.containsKey(playerName)) {
+            throw new PlayerNotFoundException("Player not found");
+        }
+        return teamPlayers.get(playerName);
     }
 
     public void removePlayer(String playerName) {

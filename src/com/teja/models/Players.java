@@ -75,7 +75,7 @@ public class Players {
         availablePlayers.put(playerName,player);
     }
 
-    //Get player used availablePlayers set.
+    //Get player user  availablePlayers set.
     public Player getPlayer(String playerName) throws PlayerNotFoundException {
         if(!availablePlayers.containsKey(playerName)) {
             throw new PlayerNotFoundException("Player not found");
